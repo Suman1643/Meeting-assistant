@@ -1,10 +1,8 @@
 import React from "react";
 import Topbar from "@/components/ui/Topbar";
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MyFeed from "@/components/ui/MyFeed";
-import Tasks from "@/components/ui/Tasks";
 import { Outlet } from "react-router-dom";
+import Sidebar from "@/components/ui/Sidebar";
 
 function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

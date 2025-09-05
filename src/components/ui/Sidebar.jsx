@@ -24,7 +24,7 @@ export default function Sidebar({ open, onClose }) {
 
       <nav className="p-4 space-y-2">
         <NavLink
-          to="/home"
+          to="/"
           className={({ isActive }) =>
             `${navClasses} ${isActive ? activeClasses : ""}`
           }
