@@ -2,9 +2,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Video } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/context/useAuth";
 
 export default function MeetingModal() {
   const [meetingLink, setMeetingLink] = useState("");
+  const { accessToken } = useAuth();
 
   const handleJoinMeeting = (e) => {
     e.preventDefault();
@@ -12,6 +14,21 @@ export default function MeetingModal() {
     alert("✅ AI Assistant will join meeting: " + meetingLink);
     setMeetingLink("");
   };
+
+  const addLiveMeeting = async()=>{
+    try{
+      const res = API.post("/meetings/join-and-record", {meet_url:meetingLink, guest_name:"Meeting Bot"},{
+         headers: { Authorization: `Bearer ${accessToken}` }
+      });
+      if(res.status === 200){
+        //do something
+      }
+
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <Dialog>
