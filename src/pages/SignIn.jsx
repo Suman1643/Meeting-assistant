@@ -1,12 +1,14 @@
+import { useAuth } from "@/context/useAuth";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
     password: "",
   });
-
+  const { signin } = useAuth();
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -15,38 +17,17 @@ function SignIn() {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch("http://localhost:5000/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log("✅ Login successful:", data);
-
-      // Save user info + token in localStorage
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
-
-      // Redirect to dashboard
-      window.location.href = "/dashboard";
-    } else {
-      alert(data.message || "Invalid credentials");
+    try {
+      await signin (formData.email, formData.password);
+      navigate("/");
+    } catch (error) {
+      console.error("⚠️ Error during login:", error);
+      alert("Something went wrong. Please try again later.");
     }
-  } catch (error) {
-    console.error("⚠️ Error during login:", error);
-    alert("Something went wrong. Please try again later.");
-  }
-};
-
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -55,20 +36,6 @@ const handleSubmit = async (e) => {
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
       >
         <h2 className="text-2xl font-bold text-center mb-6">Sign In</h2>
-
-        {/* Username */}
-        <div className="mb-4">
-          <label className="block mb-2 text-sm font-medium">Username</label>
-          <input
-            type="text"
-            name="username"
-            placeholder="Enter your username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
 
         {/* Email */}
         <div className="mb-4">
@@ -107,7 +74,10 @@ const handleSubmit = async (e) => {
         </button>
 
         <p className="text-sm text-center text-gray-600 mt-4">
-          Don’t have an account?<a href="/signup" className="text-blue-500">Sign Up</a>
+          Don’t have an account?
+          <a href="/signup" className="text-blue-500">
+            Sign Up
+          </a>
         </p>
       </form>
     </div>
@@ -115,4 +85,3 @@ const handleSubmit = async (e) => {
 }
 
 export default SignIn;
-

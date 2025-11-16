@@ -1,4 +1,6 @@
+import { useAuth } from "@/context/useAuth";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -7,6 +9,8 @@ function SignUp() {
     password: "",
     confirmPassword: "",
   });
+  const {signup} = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,31 +29,12 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      console.log("✅ Sign up successful:", data);
-
-      // Auto-login: store token + username
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.username);
-
-      // Redirect to dashboard directly
-      window.location.href = "/dashboard";
-    } else {
-      alert(data.message || "Registration failed");
+    const res = await signup(formData.email, formData.password, formData.username);
+    if(res.status === 201){
+      navigate("/signin");
+    } 
+    else {
+      throw new Error("Failed to signup");
     }
   } catch (error) {
     console.error("⚠️ Error during signup:", error);
