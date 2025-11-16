@@ -17,6 +17,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import { useAuth } from "./context/useAuth";
 import { Loader } from "lucide-react";
 import ProtectedRoute from "./ProtectedRoute";
+import MeetingDetails from "./pages/MeetingDetails";
 
 const AppLayout = () => {
   const { loading } = useAuth();
@@ -42,6 +43,7 @@ const AppLayout = () => {
         >
           <Route index element={<Dashboard />} />
           <Route path="meetings" element={<Meetings />} />
+          <Route path="meeting/:id" element={<MeetingDetails />}/>
           <Route path="status" element={<Status />} />
           <Route path="uploads" element={<Uploads />} />
           <Route path="analytics" element={<Analytics />} />
