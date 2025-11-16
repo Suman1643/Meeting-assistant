@@ -1,8 +1,10 @@
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/context/useAuth";
 import { User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function ProfileMenu() {
+  const {user} = useAuth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -12,10 +14,10 @@ export default function ProfileMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
-          <Link to="/signin">Sign In</Link>
+          {user.full_name}
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to="/signup">Sign Up</Link>
+          {user.email}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

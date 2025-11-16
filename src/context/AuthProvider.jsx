@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { API } from "@/lib/utils";
+import { API, getToken, removeToken, setToken } from "@/lib/utils";
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
@@ -8,16 +8,29 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
 
-  useEffect(()=> {
-    setLoading (true);
-    const token = localStorage.getItem("authToken");
-    if(token !== null ){
-        setIsLoggedIn(true);
-        setAccessToken(token);
-    }
-    setLoading(false);
-    
-  }, [user, accessToken, isLoggedIn])
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        setLoading(true);
+        const token = getToken();
+        if (token) {
+          const res = await API.get("/user/me", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (res.status === 200) {
+            setUser(res.data);
+            setAccessToken(token);
+            setIsLoggedIn(true);
+          }
+        }
+      } catch (error) {
+        console.log("Error during auth initialization:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    initializeAuth();
+  }, []);
 
   const signup = async (email, password, fullname) => {
     try {
@@ -44,7 +57,7 @@ const AuthProvider = ({ children }) => {
         if (token?.startsWith("Bearer ")) {
           token = token.replace("Bearer ", "");
         }
-        localStorage.setItem("authToken", token);
+        setToken(token)
         setAccessToken(token);
         setUser(res.data);
         setIsLoggedIn(true);
@@ -57,7 +70,7 @@ const AuthProvider = ({ children }) => {
   const signout = ()=> {
     setAccessToken(null)
     setUser(null)
-    localStorage.removeItem("authToken")
+    removeToken()
     setIsLoggedIn(false)
   }
 

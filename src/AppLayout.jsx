@@ -1,8 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Auth pages
 import SignUp from "./pages/SignUp";
@@ -20,21 +16,30 @@ import Settings from "./pages/Settings";
 import DashboardLayout from "./layouts/DashboardLayout";
 import { useAuth } from "./context/useAuth";
 import { Loader } from "lucide-react";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppLayout = () => {
-  const {loading}= useAuth();
-    
-  if(loading){
-    <div className="h-screen w-full flex justify-center items-center">
-      <Loader className="animate-spin"/>  
-    </div>
+  const { loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="h-screen w-full flex justify-center items-center">
+        <Loader className="animate-spin" />
+      </div>
+    );
   }
 
-
   return (
-<Router>
+    <Router>
       <Routes>
-        <Route path="/" element={<DashboardLayout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="meetings" element={<Meetings />} />
           <Route path="status" element={<Status />} />
@@ -46,7 +51,7 @@ const AppLayout = () => {
         <Route path="/signin" element={<SignIn />} />
       </Routes>
     </Router>
-  )
-}
+  );
+};
 
-export default AppLayout
+export default AppLayout;

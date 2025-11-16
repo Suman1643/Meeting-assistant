@@ -1,19 +1,12 @@
-import React, { useEffect } from "react";
 import Topbar from "@/components/ui/Topbar";
 import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "@/components/ui/Sidebar";
-import { useAuth } from "@/context/useAuth";
 
 function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { loading, isLoggedIn } = useAuth();
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!isLoggedIn && !loading) {
-      navigate("/signin");
-    }
-  }, [isLoggedIn]);
+
+  
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}

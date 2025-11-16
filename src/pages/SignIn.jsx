@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/useAuth";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -75,9 +75,9 @@ function SignIn() {
 
         <p className="text-sm text-center text-gray-600 mt-4">
           Don’t have an account?
-          <a href="/signup" className="text-blue-500">
+          <Link to="/signup" className="text-blue-500">
             Sign Up
-          </a>
+          </Link>
         </p>
       </form>
     </div>

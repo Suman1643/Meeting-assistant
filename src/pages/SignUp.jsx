@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/useAuth";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -119,9 +119,9 @@ const handleSubmit = async (e) => {
 
         <p className="text-sm text-center text-gray-600 mt-4">
           Already have an account?{" "}
-          <a href="/signin" className="text-green-500">
+          <Link to="/signin" className="text-green-500">
             Sign In
-          </a>
+          </Link>
         </p>
       </form>
     </div>
