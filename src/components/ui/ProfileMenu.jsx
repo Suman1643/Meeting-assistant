@@ -1,10 +1,15 @@
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/useAuth";
 import { User } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function ProfileMenu() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -14,11 +19,11 @@ export default function ProfileMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
-          {user.full_name}
-        </DropdownMenuItem>
+          <p>Asish patro</p>
+          </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          {user.email}
-        </DropdownMenuItem>
+          <p>asish3@gmail.com</p>
+          </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

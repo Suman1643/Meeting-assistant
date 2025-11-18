@@ -39,7 +39,7 @@ export default function Sidebar({ open, onClose }) {
         >
           <Calendar size={20} /> <span>Meetings</span>
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/status"
           className={({ isActive }) =>
             `${navClasses} ${isActive ? activeClasses : ""}`
@@ -70,7 +70,7 @@ export default function Sidebar({ open, onClose }) {
           }
         >
           <Settings size={20} /> <span>Settings</span>
-        </NavLink>
+        </NavLink> */}
       </nav>
     </aside>
   );
